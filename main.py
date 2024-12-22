@@ -19,6 +19,7 @@ def actions(choice):
     """
     global main_menu
     global new_list_request
+    global list_content
     match choice:
         case 1: # list tasks
             os.system('cls')
@@ -27,14 +28,25 @@ def actions(choice):
             os.system('cls')
         case 2: # add task
             os.system('cls')
-            lcm.add_task(list_content, list_cache)
+            user_input = input('please insert your new task\n(you can put more than one task, just separate it with ","\nex: (do homework, do the dishes, finish my favorite anime)):\n\n>>> ')
+            lcm.add_task(list_content, list_cache, user_input)
             os.system("cls")
             print("task(s) added!")
             time.sleep(2)
             os.system("cls")
         case 3: # clear/delete task
             os.system('cls')
-            lcm.conclude_or_delete_task(list_content, list_cache)
+            lines = []
+            max_len = 0
+            for task_number, task in enumerate(list_content):
+                line = f'{task_number + 1} -> {task}'
+                max_len = len(line) if len(line) > max_len else max_len
+                lines.append(line)
+            print(f"{"conclude/delete tasks".center(max_len)}\n")
+            for line in lines:
+                print(line)
+            user_input = input("\nplease, select the task that you want to dele from this list:\n(if you want to delete more than one, just put a ',')\n(ex: (1, 4, 6))\n>>> ")
+            lcm.conclude_or_delete_task(list_content, list_cache, user_input)
             os.system("cls")
             print("task(s) cleared!")
             time.sleep(2)
